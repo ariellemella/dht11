@@ -1,0 +1,3 @@
+viam-sdk
+adafruit_dht
+board
