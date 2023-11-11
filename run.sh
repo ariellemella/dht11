@@ -6,7 +6,6 @@ if [ -f .installed ]
     source viam-env/bin/activate
   else
     sudo apt-get install libgpiod2
-    python3 -m pip install --user virtualenv
     python3 -m venv viam-env
     source viam-env/bin/activate
     pip3 install --upgrade -r requirements.txt
