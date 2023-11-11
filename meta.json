@@ -1,0 +1,13 @@
+{
+  "module_id": "arielle:dht11",
+  "visibility": "private",
+  "url": "",
+  "description": "",
+  "models": [
+    {
+      "api": "rdk:component:sensor",
+      "model": "arielle:sensor:dht11"
+    }
+  ],
+  "entrypoint": "run.sh"
+}

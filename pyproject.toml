@@ -1,0 +1,11 @@
+[project]
+name = "dht11"
+version = "0.0.1"
+authors = [
+    { name="Arielle Mella", email="arielle@viam.com" },
+]
+description = "Viam Modular component for DHT temperature and humidity sensor"
+readme = "README.md"
+requires-python = ">=3.7"
+
+

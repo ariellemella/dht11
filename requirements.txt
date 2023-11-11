@@ -1,3 +1,4 @@
 viam-sdk
 adafruit_dht
+adafruit-circuitpython-dht
 board
