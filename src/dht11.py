@@ -29,7 +29,7 @@ class dht11(Sensor, Reconfigurable):
     
     # Class parameters
 
-    dhtDevice = adafruit_dht.DHT11(board.D4)
+    dht11Device = adafruit_dht.DHT11(board.D4)
 
     # Constructor
     @classmethod
@@ -42,16 +42,21 @@ class dht11(Sensor, Reconfigurable):
     @classmethod
     def validate(cls, config: ComponentConfig):
         
-        dhtDevice = config.attributes.fields["dhtDevice"].number_value
-
-        if dhtDevice == "":
-            raise Exception("A some_pin must be defined")
+        dht11Device = config.attributes.fields["dht11Device"].number_value
+        readings_map = config.attributes.fields["readings_map"].struct_value
+        
+        if readings_map =="":
+            raise NameError("Sensor map must be defined ")
+        
+        if dht11Device == "":
+            raise Exception("Device must be defined")
         return
 
     # Handles attribute reconfiguration
     def reconfigure(self, config: ComponentConfig, dependencies: Mapping[ResourceName, ResourceBase]):
         # Initialize the resource instance
-        dhtDevice = int(config.attributes.fields["dhtDevice"].number_value)
+        dht11Device = int(config.attributes.fields["dht11Device"].number_value)
+        self.readings_map = dict(config.attributes.fields["readings_map"].struct_value)
         return
 
     # Implement the methods the Viam RDK defines for the Sensor API
@@ -59,15 +64,20 @@ class dht11(Sensor, Reconfigurable):
         self, *, extra: Optional[Mapping[str, Any]] = None, timeout: Optional[float] = None, **kwargs
     ) -> Mapping[str, Any]:
         
-        dhtDevice = adafruit_dht.DHT11(board.D4)
+        dht11Device = adafruit_dht.DHT11(board.D4)
 
-        temperature_c = dhtDevice.temperature
-        temperature_f = temperature_c * (9 / 5) + 32
-        humidity = dhtDevice.humidity
+        temperature_c = dht11Device.temperature
+        humidity = dht11Device.humidity
+
+        readings = {}
+
+        for label, dhtreadings in self.readings_map.items():
+            readings[label] = temperature_c, humidity
+
 
         while True:
             try:
-                return  temperature_c, temperature_f, humidity
+                return readings
         
             except RuntimeError as error:
              # Errors happen fairly often
@@ -75,9 +85,11 @@ class dht11(Sensor, Reconfigurable):
                 time.sleep(2.0)
                 continue
             except Exception as error:
-                dhtDevice.exit()
+                dht11Device.exit()
                 raise error
+            
     
+
         
 
 
