@@ -64,7 +64,7 @@ class dht11(Sensor, Reconfigurable):
         self, *, extra: Optional[Mapping[str, Any]] = None, timeout: Optional[float] = None, **kwargs
     ) -> Mapping[str, Any]:
         
-        dht11Device = adafruit_dht.DHT11(board.D4)
+        dht11Device = adafruit_dht.DHT22(board.D4)
 
         temperature_c = dht11Device.temperature
         humidity = dht11Device.humidity
