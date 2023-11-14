@@ -72,7 +72,7 @@ class dht11(Sensor, Reconfigurable):
         readings = {}
 
         for label, dhtreadings in self.readings_map.items():
-            readings[label] = temperature_c, humidity
+            readings[label] = temperature_c
 
 
         while True:
